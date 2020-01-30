@@ -22,6 +22,7 @@
             </div>
             -->
         </div>
+        <slider-table></slider-table>
         <div id="content">
             <button @click="decreaseWidth">Decrease Width</button>
             <button @click="increaseWidth">Increase Width</button>
@@ -98,12 +99,14 @@
                            :i="item.i"
                            :is-draggable="false"
                            :is-resizable="item.resizable"
-                           @clicked="clicked"
+                           @click.native="clicked($event, item.x, item.y)"
                 >
                     <test-element :text="item.i"></test-element>
                 </grid-item>
             </grid-layout>
+            
         </div>
+
     </div>
 </template>
 
@@ -114,6 +117,7 @@
     import TestElement from './components/TestElement.vue';
     import CustomDragElement from './components/CustomDragElement.vue';
     import {getDocumentDir, setDocumentDir} from "./helpers/DOM";
+    import SliderTable from './components/SliderTable.vue';
     //var eventBus = require('./eventBus');
 
     let testLayout = [
@@ -224,6 +228,7 @@
             GridItem,
             TestElement,
             CustomDragElement,
+            SliderTable,
         },
         data () {
             return {
@@ -243,14 +248,11 @@
             this.index = this.layout.length;
         },
         methods: {
-            select: function(event){
-                var targetId = event.currentTarget.id;
-                alert(targetId);
-            },
 
-            clicked: function(i, newX, newY) {
-                console.log("click i=" + i + ", X=" + newX + ", Y=" + newY);
-                window.alert("CLICK!");
+            clicked: function(event, x, y) {
+                console.log("click i=" + event);
+                //var targetId = event.currentTarget.id;
+                window.alert("CLICK!" + "(" + x + "," + y + ")" );
             },
 
             increaseWidth: function() {
